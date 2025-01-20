@@ -78,8 +78,9 @@ struct communicator {
       static_assert(std::is_same<T, void>::value && std::is_arithmetic<T>::value, "copy src type is invalid");
 
       std::size_t amt = 0;
-      std::uint8_t * symbuf = &symmetric_buffer[symmetric_buffer_segment_size*dst_pe];
-      std::uint64_t * cond = &symmetric_buffer[(symmetric_buffer_segment_size*n_pes)+dst_pe];
+      const int self_pe = my_pe();
+      std::uint8_t * symbuf = &symmetric_buffer[symmetric_buffer_segment_size*self_pe];
+      std::uint64_t * cond = &symmetric_buffer[(symmetric_buffer_segment_size*n_pes)+self_pe];
 
       std::size_t cpy_amt[2] = { count, symmetric_buffer_size };
 
